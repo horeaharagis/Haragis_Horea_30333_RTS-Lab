@@ -1,43 +1,30 @@
 package LabSession2.ex2;
 
-class Producer implements Runnable{
-
+public class Producer implements Runnable {
     private Buffer bf;
-
     private Thread thread;
 
-    Producer(Buffer bf){this.bf=bf;}
+    public Producer (Buffer bf) {
+        this.bf = bf;
+    }
 
-    public void start(){
-
-        if (thread==null){
-
+    public void start() {
+        if (this.thread == null) {
             thread = new Thread(this);
-
             thread.start();
-
         }
-
     }
 
-    public void run(){
-
-        while (true){
-
+    @Override
+    public void run() {
+        while(true){
             bf.put(Math.random());
-
-            System.out.println("Producer "+thread.getName()+
-
-                    " gave a task.");
-
-            try{
-
+            System.out.println("Producer " + this.thread.getName() + " gave a task.");
+            try {
                 Thread.sleep(1000);
-
-            }catch(Exception e){e.printStackTrace();}
-
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
         }
-
     }
-
 }

@@ -1,33 +1,43 @@
 package LabSession2.ex3;
 
-public class JoinTestThread extends Thread {
+public class JoinTestThread extends Thread{
     Thread t;
-    String n;
-    JoinTestThread(String n, Thread t){
-        this.n = n;
-        this.t=t;
-    }
-    public void run() {
-        System.out.println("Thread "+n+" has entered the run() method");
-        try {
-            if (t != null)
-                t.join();
-            int number;
-            if (n.equals("Thread 1")) {
-                number = 50001;
-            } else {
-                number = 20001;
-            }
+    int no;
 
-            for (int i = 1; i <= number; i++) {
-                if (number % i == 0) {
-                    Main.totalSum += i;
-                }
+    JoinTestThread(String n, Thread t, int no){
+        this.setName(n);
+        this.t = t;
+        this.no = no;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Thread " + getName() + " has entered the run() method");
+
+        try{
+            if (t != null){
+                t.join();
             }
-            System.out.println("Thread " + n + " executed operation. Sum of divisors: " + Main.totalSum);
+            System.out.println("Thread " + getName() + " executing operations");
+            sumDiv();
+            System.out.println("The sum is equal to " + Main.sumDiv + " obtained by " + getName());
+            System.out.println(getName() + " has terminated operation");
+        } catch (Exception ex){
+            ex.printStackTrace();
         }
-        catch(Exception e){
-            e.printStackTrace();
+    }
+
+    private void sumDiv(){
+        int sum = 0;
+
+        for (int i = 1; i < this.no / 2; i++){
+
+            if (this.no % i == 0){
+                sum += i;
+            }
         }
+
+        sum += this.no;
+        Main.sumDiv = sum;
     }
 }

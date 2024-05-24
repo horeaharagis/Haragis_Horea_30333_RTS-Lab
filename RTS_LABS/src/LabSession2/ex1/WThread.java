@@ -1,38 +1,23 @@
 package LabSession2.ex1;
 
-import LabSession2.ex1.FileService;
-import LabSession2.ex1.Main;
-
 public class WThread extends Thread{
-
     FileService service;
 
-    public WThread(FileService service) {
-
+    public WThread(FileService service){
         this.service = service;
-
     }
 
+    @Override
     public void run(){
-
-        while(!Main.isStopThreads()){
-
-            String msg=String.valueOf(Math.round(Math.random()*100));
-
+        while(!Main.isStopThread()){
+            String msg = String.valueOf(Math.random() * 100);
             service.write(msg);
-
             try {
-
                 Thread.sleep(2000);
-
-            } catch (InterruptedException e) {
-
-                e.printStackTrace();
-
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
-
         }
-
     }
 
 }

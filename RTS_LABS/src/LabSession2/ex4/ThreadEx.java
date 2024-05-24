@@ -1,39 +1,36 @@
 package LabSession2.ex4;
 
-class ThreadEx extends Thread {
-
+public class ThreadEx extends Thread{
     boolean stop;
 
-    ThreadEx(ThreadGroup tg, String name) {
-
-        super(tg, name);
-
-        stop = false;
-
+    ThreadEx(ThreadGroup threadGroup, String name){
+        super(threadGroup, name);
+        this.stop = false;
     }
 
+    @Override
     public void run() {
+        System.out.println(Thread.currentThread().getName() + " ON");
 
-        System.out.println(Thread.currentThread().getName() + " ON.");
-
-        try {
-
-            for (int i = 1; i < 1000; i++) {
-
-                System.out.print(".");
-
+        try{
+            for (int i = 1; i < 1000; i++){
+                System.out.println(".");
                 Thread.sleep(250);
-                synchronized (this) {
-                    if (stop)
+
+                synchronized (this){
+                    if (stop){
                         break;
+                    }
                 }
             }
-        } catch (Exception exc) {
-            System.out.println(Thread.currentThread().getName() + " intrerupt.");
+        }catch (Exception ex){
+            System.out.println(Thread.currentThread().getName() + " interrupt");
         }
-        System.out.println(Thread.currentThread().getName() + " The end.");
+
+        System.out.println(Thread.currentThread().getName() + " ended");
     }
+
     public void stopThread() {
-        stop = true;
+        this.stop = true;
     }
 }
