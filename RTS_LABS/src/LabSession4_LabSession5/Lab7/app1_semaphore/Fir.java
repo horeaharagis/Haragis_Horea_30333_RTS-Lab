@@ -25,44 +25,44 @@ public class Fir extends Thread {
 
     public void run() {
 
-            System.out.println(this.getName() + " State 1");
-            int k = (int) Math.round(Math.random() * (activity_max - activity_min) + activity_min);
-            for (int i = 0; i < k * 100000; i++) {
-                i++;
-                i--;
-            }
+        System.out.println(this.getName() + " State 1");
+        int k = (int) Math.round(Math.random() * (activity_max - activity_min) + activity_min);
+        for (int i = 0; i < k * 100000; i++) {
+            i++;
+            i--;
+        }
         try {
             this.semaphore.acquire(this.permit);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         System.out.println(this.getName() + " State 2");
-            int k1 = (int) Math.round(Math.random() * (activity_max1 - activity_min1) + activity_min1);
-            for (int i = 0; i < k1 * 100000; i++) {
-                i++;
-                i--;
+        int k1 = (int) Math.round(Math.random() * (activity_max1 - activity_min1) + activity_min1);
+        for (int i = 0; i < k1 * 100000; i++) {
+            i++;
+            i--;
+        }
+        if (semaphore2.tryAcquire(1)) {
+            try {
+                System.out.println(this.getName() + " State 3");
+                Thread.sleep(sleep * 500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                semaphore2.release(1);
             }
-            if (semaphore2.tryAcquire(1)) {
-                try {
-                    System.out.println(this.getName() + " State 3");
-                    Thread.sleep(sleep * 500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    semaphore2.release(1);
-                }
-
-            }
-                this.semaphore.release(1);
-                System.out.println(this.getName() + " State 4");
-
-
-                try {
-                    barrier.await();
-                } catch (InterruptedException | BrokenBarrierException e) {
-                    e.printStackTrace();
-                }
 
         }
+        semaphore.release(1);
+        System.out.println(this.getName() + " State 4");
+
+
+        try {
+            barrier.await();
+        } catch (InterruptedException | BrokenBarrierException e) {
+            e.printStackTrace();
+        }
+
     }
+}
 

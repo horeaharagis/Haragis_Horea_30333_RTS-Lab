@@ -13,14 +13,16 @@ public class Main {
         });
 
 
-while(true) {
-    Fir thread1 = new Fir(2,4,4,6,4,1,semaphore,semaphore2,barrier);
-    Fir thread2 = new Fir(3,5,5,7,5,1,semaphore2,semaphore,barrier);
-    thread1.start();
-    thread2.start();
-barrier.await();
-barrier.reset();
-}
+        while (true) {
+            Fir thread1 = new Fir(2, 4, 4, 6, 4, 1, semaphore, semaphore2, barrier);
+            Fir thread2 = new Fir(3, 5, 5, 7, 5, 1, semaphore2, semaphore, barrier);
+
+            thread1.start();
+            thread2.start();
+
+            barrier.await();
+            barrier.reset();
+        }
 
     }
 }
